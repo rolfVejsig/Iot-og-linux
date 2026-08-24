@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sensor Settings</title>
+</head>
+
+<body>
+
+<h1>Sensor Settings</h1>
+
+<h2>Client</h2>
+
+<select id="client">
+    <option value="">Select client</option>
+</select>
+
+
+<h2>Database</h2>
+
+<label>
+    Database interval (minutes):
+    <input type="number" id="database_interval" value="10">
+</label>
+
+
+<h2>Monitoring Time</h2>
+
+<label>
+    Start:
+    <input type="time" id="monitoring_start" value="00:00">
+</label>
+
+<br><br>
+
+<label>
+    End:
+    <input type="time" id="monitoring_end" value="18:00">
+</label>
+
+
+<h2>Temperature</h2>
+
+<label>
+    Low:
+    <input type="number" id="temperature_low" value="18">
+</label>
+
+<br><br>
+
+<label>
+    High:
+    <input type="number" id="temperature_high" value="21">
+</label>
+
+
+<h2>Humidity</h2>
+
+<label>
+    Low:
+    <input type="number" id="humidity_low" value="30">
+</label>
+
+<br><br>
+
+<label>
+    High:
+    <input type="number" id="humidity_high" value="50">
+</label>
+
+
+<h2>Sound</h2>
+
+<label>
+    Low:
+    <input type="number" id="sound_low" value="0">
+</label>
+
+<br><br>
+
+<label>
+    High:
+    <input type="number" id="sound_high" value="500">
+</label>
+
+
+<br><br>
+
+<button id="saveButton">Save</button>
+
+
+<script>
+
+// Hent alle clients
+
+async function getClients() {
+
+    try {
+
+        const response = await fetch("/clients/get_clients");
+
+        const clients = await response.json();
+
+        const select = document.getElementById("client");
+
+        clients.forEach(client => {
+
+            const option = document.createElement("option");
+
+            option.value = client.client_id;
+
+            option.textContent = client.client_name;
+
+            select.appendChild(option);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+// Hent settings for valgt client
+
+document.getElementById("client").addEventListener("change", async function() {
+
+    const selectedClientID = this.value;
+
+    if (!selectedClientID) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "/clients/settings/" + selectedClientID
+        );
+
+        const result = await response.json();
+
+        if (result.length > 0) {
+
+            const settings = result[0];
+
+            document.getElementById("database_interval").value =
+                settings.database_interval;
+
+            document.getElementById("monitoring_start").value =
+                settings.monitoring_start;
+
+            document.getElementById("monitoring_end").value =
+                settings.monitoring_end;
+
+            document.getElementById("temperature_low").value =
+                settings.temperature_low;
+
+            document.getElementById("temperature_high").value =
+                settings.temperature_high;
+
+            document.getElementById("humidity_low").value =
+                settings.humidity_low;
+
+            document.getElementById("humidity_high").value =
+                settings.humidity_high;
+
+            document.getElementById("sound_low").value =
+                settings.sound_low;
+
+            document.getElementById("sound_high").value =
+                settings.sound_high;
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+});
+
+
+// Gem settings
+
+document.getElementById("saveButton").addEventListener("click", async function() {
+
+    const client_id =
+        Number(document.getElementById("client").value);
+
+    if (!client_id) {
+
+        alert("Select a client");
+
+        return;
+
+    }
+
+    const data = {
+
+        client_id: client_id,
+
+        database_interval:
+            Number(document.getElementById("database_interval").value),
+
+        monitoring_start:
+            document.getElementById("monitoring_start").value,
+
+        monitoring_end:
+            document.getElementById("monitoring_end").value,
+
+        temperature_low:
+            Number(document.getElementById("temperature_low").value),
+
+        temperature_high:
+            Number(document.getElementById("temperature_high").value),
+
+        humidity_low:
+            Number(document.getElementById("humidity_low").value),
+
+        humidity_high:
+            Number(document.getElementById("humidity_high").value),
+
+        sound_low:
+            Number(document.getElementById("sound_low").value),
+
+        sound_high:
+            Number(document.getElementById("sound_high").value)
+
+    };
+
+
+    try {
+
+        const response = await fetch("/clients/insert_settings", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(data)
+
+        });
+
+
+        const result = await response.json();
+
+
+        if (response.status === 201) {
+
+            alert("Settings saved");
+
+        } else {
+
+            alert("Error: " + result.error);
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not connect to API");
+
+    }
+
+});
+
+
+// Hent clients når siden åbnes
+
+getClients();
+
+</script>
+
+</body>
+
+</html>
