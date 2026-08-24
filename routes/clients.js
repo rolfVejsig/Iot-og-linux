@@ -11,6 +11,20 @@ router.post("/insert_observ", async (req, res) => {
 
     try {
 
+        // Tjek om client eksisterer
+        const client = await pool.query(
+            "SELECT client_id FROM clients WHERE client_id = ?",
+            [client_id]
+        );
+
+        // Ukendt client
+        if (client.length === 0) {
+            return res.status(401).json({
+                error: "Unauthorized device"
+            });
+        }
+
+        // Client er godkendt
         await pool.query(
             "CALL insert_observation(?, ?, ?, ?, ?)",
             [client_id, temperature, humidity, sound, date]
