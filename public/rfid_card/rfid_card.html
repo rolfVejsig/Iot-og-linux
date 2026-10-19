@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Administration</title>
+    <link rel="stylesheet" href="rfid_card.css">
+</head>
+
+<body>
+
+<h1>RFID Administration</h1>
+
+<div class="container">
+
+    <!-- venstre side: opret medarbejder -->
+    <section class="panel">
+
+        <h2>Create Employee</h2>
+
+        <form id="employeeForm">
+
+            <label for="first_name">First name</label>
+            <input type="text" id="first_name" required>
+
+            <label for="last_name">Last name</label>
+            <input type="text" id="last_name" required>
+
+            <label for="password">Password (hexadecimal)</label>
+            <input
+                type="password"
+                id="password"
+                required
+                pattern="[0-9A-Fa-f]{4,16}"
+                minlength="4"
+                maxlength="16"
+                title="Use 4-16 characters from 0-9 and A-F"
+            >
+
+            <h3>RFID Card</h3>
+
+            <label for="card_uid">Card UID</label>
+            <input type="text" id="card_uid" required>
+
+            <label for="expiry_date">Expiry date (keep empty for no expiry date)</label>
+            <input type="datetime-local" id="expiry_date">
+
+            <h3>Locations</h3>
+
+            <div id="locations">
+                Loading locations...
+            </div>
+
+            <button type="submit" id="saveButton">
+                Create employee
+            </button>
+
+        </form>
+
+        <p id="message" role="status"></p>
+
+    </section>
+
+
+    <!-- hjøre side: administrer RFID-kort -->
+    <section class="panel">
+
+        <h2>Manage RFID Cards</h2>
+
+        <label for="employeeSelect">Select employee</label>
+
+        <select id="employeeSelect">
+            <option value="">Select employee</option>
+        </select>
+
+        <div id="cardInfo" class="card-info">
+            Select an employee to view their RFID card.
+        </div>
+
+        <button id="toggleCardButton" type="button" disabled>
+            Select a card
+        </button>
+
+        <p id="cardMessage" role="status"></p>
+
+    </section>
+
+</div>
+
+<script src="rfid_card.js" defer></script>
+</body>
+</html>

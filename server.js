@@ -1,4 +1,5 @@
 const express = require("express");
+
 const clientsRouter = require("./routes/clients");
 
 const app = express();
@@ -23,7 +24,6 @@ app.use((req, res) => {
     });
 });
 
-
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0", () => {
     console.log("Server kører på port 3000");
 });

@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background: #f4f6f9;
+    color: #222;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #00000012;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 11px 16px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    background: #03346E;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.deactivate {
+    background: #b42318;
+}
+
+.activate {
+    background: #16803c;
+}
+
+.card-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f4f6f9;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+}
+
+.status {
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.active {
+    color: #16803c;
+}
+
+.inactive {
+    color: #b42318;
+}
+
+#message, #cardMessage {
+    margin-top: 15px;
+}
+
+@media (max-width: 800px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    body {
+        margin: 15px;
+    }
+}

@@ -12,6 +12,7 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mariadb": "^3.5.3"
+    "mariadb": "^3.5.3",
+    "mqtt": "^5.16.1"
   }
 }
