@@ -155,7 +155,8 @@ router.post("/insert_settings", async (req, res) => {
         temperature_low,
         temperature_high,
         humidity_low,
-        humidity_high
+        humidity_high,
+        door_open_alarm_minutes   // ← tilføjet
     } = req.body;
 
     if (
@@ -167,7 +168,8 @@ router.post("/insert_settings", async (req, res) => {
         temperature_low === undefined ||
         temperature_high === undefined ||
         humidity_low === undefined ||
-        humidity_high === undefined
+        humidity_high === undefined ||
+        door_open_alarm_minutes === undefined   // ← tilføjet
     ) {
         return res.status(400).json({
             error: "Missing or invalid settings"
@@ -185,9 +187,21 @@ router.post("/insert_settings", async (req, res) => {
         });
     }
 
+    // ← ny validering af door_open_alarm_minutes
+    const doorMinutes = Number(door_open_alarm_minutes);
+
+    if (!Number.isInteger(doorMinutes) ||
+        doorMinutes < 1 ||
+        doorMinutes > 60) {
+        return res.status(400).json({
+            error: "Door alarm must be between 1 and 60 minutes"
+        });
+    }
+
     try {
+        // ← rettet: proceduren tager 9 parametre, ikke 8
         await pool.query(
-            "CALL insert_sensor_settings(?, ?, ?, ?, ?, ?, ?, ?)",
+            "CALL insert_sensor_settings(?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 Number(client_id),
                 Number(database_interval),
@@ -196,7 +210,8 @@ router.post("/insert_settings", async (req, res) => {
                 Number(humidity_low),
                 Number(humidity_high),
                 working_start,
-                working_end
+                working_end,
+                doorMinutes
             ]
         );
 

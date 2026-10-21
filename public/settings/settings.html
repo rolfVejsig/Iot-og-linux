@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+
+<body>
+
+<h1>Sensor Settings</h1>
+
+<main class="container">
+    <section class="panel client-panel">
+        <h2>Client</h2>
+        <label for="client">Select client</label>
+        <select id="client">
+            <option value="">Select client</option>
+        </select>
+    </section>
+
+    <section class="panel">
+        <h2>Working Hours</h2>
+        <div class="field-grid">
+            <div>
+                <label for="working_start">Start</label>
+                <input type="time" id="working_start" value="08:00">
+            </div>
+            <div>
+                <label for="working_end">End</label>
+                <input type="time" id="working_end" value="18:00">
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Database</h2>
+        <label for="database_interval">Database interval (minutes)</label>
+        <input type="number" id="database_interval"
+               value="10" min="1" required>
+    </section>
+
+    <section class="panel">
+        <h2>Temperature</h2>
+        <div class="field-grid">
+            <div>
+                <label for="temperature_low">Low</label>
+                <input type="number" id="temperature_low"
+                       value="18" step="0.1" required>
+            </div>
+            <div>
+                <label for="temperature_high">High</label>
+                <input type="number" id="temperature_high"
+                       value="21" step="0.1" required>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Humidity</h2>
+        <div class="field-grid">
+            <div>
+                <label for="humidity_low">Low</label>
+                <input type="number" id="humidity_low"
+                       value="30" step="0.1" required>
+            </div>
+            <div>
+                <label for="humidity_high">High</label>
+                <input type="number" id="humidity_high"
+                       value="50" step="0.1" required>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Door Alarm</h2>
+        <label for="door_open_alarm_minutes">
+            Alarm if door stays open (minutes)
+        </label>
+        <input type="number"
+               id="door_open_alarm_minutes"
+               value="3"
+               min="1"
+               max="60"
+               step="1"
+               required>
+        <p class="help-text">
+            The alarm activates if the door remains open longer than the
+            selected number of minutes.
+        </p>
+    </section>
+
+</main>
+
+<div class="save-bar">
+    <button id="saveButton" type="button">Save</button>
+</div>
+
+<script src="settings.js" defer></script>
+</body>
+</html>
