@@ -246,7 +246,6 @@ router.get("/get_clients", async (req, res) => {
 });
 
 
-
 router.post("/arrival", async (req, res) => {
     const { card_uid, client_name } = req.body;
 
@@ -344,9 +343,6 @@ router.post("/arrival", async (req, res) => {
                 console.error("MQTT disconnected; alarm was not published");
             }
 
-            // Register the attempt so the database can log the denial.
-            // IMPORTANT: register_arrival must also enforce working hours
-            // and return access_granted = 0 for this request.
             const result = await pool.query(
                 "CALL register_arrival(?, ?)",
                 [card_uid, client_name]
